@@ -1536,12 +1536,15 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 		 *
 		 * Note: When a theme adds 'post-thumbnail' support, a special 'post-thumbnail'
 		 * image size is registered, which differs from the 'thumbnail' image size
-		 * managed via the Settings > Media screen.
+		 * managed via the Settings > Media screen. See the `$size` parameter description
+		 * for more information on default values.
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param string|int[] $size         Requested image size. Can be any registered image size name, or
-		 *                                   an array of width and height values in pixels (in that order).
+		 * @param string|array $size         Post thumbnail image size to display in the meta box. Accepts any valid
+		 *                                   image size, or an array of width and height values in pixels (in that order).
+		 *                                   If the 'post-thumbnail' size is set, default is 'post-thumbnail'. Otherwise,
+		 *                                   default is an array with 266 as both the height and width values.
 		 * @param int          $thumbnail_id Post thumbnail attachment ID.
 		 * @param WP_Post      $post         The post object associated with the thumbnail.
 		 */
@@ -1738,10 +1741,10 @@ function _admin_notice_post_locked() {
 		<?php
 		if ( $override ) {
 			/* translators: %s: User's display name. */
-			printf( __( '%s is currently editing this post. Do you want to take over?' ), esc_html( $user->display_name ) );
+			printf( __( '%s is already editing this post. Do you want to take over?' ), esc_html( $user->display_name ) );
 		} else {
 			/* translators: %s: User's display name. */
-			printf( __( '%s is currently editing this post.' ), esc_html( $user->display_name ) );
+			printf( __( '%s is already editing this post.' ), esc_html( $user->display_name ) );
 		}
 		?>
 		</p>
@@ -2124,7 +2127,7 @@ function use_block_editor_for_post( $post ) {
 	$use_block_editor = use_block_editor_for_post_type( $post->post_type );
 
 	/**
-	 * Filters whether a post is able to be edited in the block editor.
+	 * Filter whether a post is able to be edited in the block editor.
 	 *
 	 * @since 5.0.0
 	 *
@@ -2160,7 +2163,7 @@ function use_block_editor_for_post_type( $post_type ) {
 	}
 
 	/**
-	 * Filters whether a post is able to be edited in the block editor.
+	 * Filter whether a post is able to be edited in the block editor.
 	 *
 	 * @since 5.0.0
 	 *
@@ -2213,7 +2216,7 @@ function get_block_categories( $post ) {
 	);
 
 	/**
-	 * Filters the default array of block categories.
+	 * Filter the default array of block categories.
 	 *
 	 * @since 5.0.0
 	 *

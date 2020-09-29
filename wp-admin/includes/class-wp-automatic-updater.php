@@ -62,7 +62,7 @@ class WP_Automatic_Updater {
 	 * filesystem to the top of the drive, erring on the side of detecting a VCS
 	 * checkout somewhere.
 	 *
-	 * ABSPATH is always checked in addition to whatever `$context` is (which may be the
+	 * ABSPATH is always checked in addition to whatever $context is (which may be the
 	 * wp-content directory, for example). The underlying assumption is that if you are
 	 * using version control *anywhere*, then you should be making decisions for
 	 * how things get updated.
@@ -70,8 +70,6 @@ class WP_Automatic_Updater {
 	 * @since 3.7.0
 	 *
 	 * @param string $context The filesystem path to check, in addition to ABSPATH.
-	 * @return bool True if a VCS checkout was discovered at `$context` or ABSPATH,
-	 *              or anywhere higher. False otherwise.
 	 */
 	public function is_vcs_checkout( $context ) {
 		$context_dirs = array( untrailingslashit( $context ) );
@@ -114,7 +112,7 @@ class WP_Automatic_Updater {
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param bool $checkout  Whether a VCS checkout was discovered at `$context`
+		 * @param bool $checkout  Whether a VCS checkout was discovered at $context
 		 *                        or ABSPATH, or anywhere higher.
 		 * @param string $context The filesystem context (a path) against which
 		 *                        filesystem status should be checked.
@@ -134,7 +132,6 @@ class WP_Automatic_Updater {
 	 * @param object $item    The update offer.
 	 * @param string $context The filesystem context (a path) against which filesystem
 	 *                        access and status should be checked.
-	 * @return bool True if the item should be updated, false otherwise.
 	 */
 	public function should_update( $type, $item, $context ) {
 		// Used to see if WP_Filesystem is set up to allow unattended updates.
@@ -245,8 +242,6 @@ class WP_Automatic_Updater {
 	 * @since 3.7.0
 	 *
 	 * @param object $item The update offer.
-	 * @return bool True if the site administrator is notified of a core update,
-	 *              false otherwise.
 	 */
 	protected function send_core_update_notification_email( $item ) {
 		$notified = get_site_option( 'auto_core_update_notified' );
@@ -896,9 +891,9 @@ class WP_Automatic_Updater {
 		 * Filters whether to send an email following an automatic background plugin update.
 		 *
 		 * @since 5.5.0
-		 * @since 5.5.1 Added the `$update_results` parameter.
+		 * @since 5.5.1 Added the $update_results parameter.
 		 *
-		 * @param bool  $enabled        True if plugin update notifications are enabled, false otherwise.
+		 * @param bool  $enabled        True if plugins notifications are enabled, false otherwise.
 		 * @param array $update_results The results of plugins update tasks.
 		 */
 		$notifications_enabled = apply_filters( 'auto_plugin_update_send_email', true, $update_results['plugin'] );
@@ -917,9 +912,9 @@ class WP_Automatic_Updater {
 		 * Filters whether to send an email following an automatic background theme update.
 		 *
 		 * @since 5.5.0
-		 * @since 5.5.1 Added the `$update_results` parameter.
+		 * @since 5.5.1 Added the $update_results parameter.
 		 *
-		 * @param bool  $enabled        True if theme update notifications are enabled, false otherwise.
+		 * @param bool  $enabled True if notifications are enabled, false otherwise.
 		 * @param array $update_results The results of theme update tasks.
 		 */
 		$notifications_enabled = apply_filters( 'auto_theme_update_send_email', true, $update_results['theme'] );

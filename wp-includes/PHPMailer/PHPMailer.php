@@ -441,8 +441,6 @@ class PHPMailer
      * Only supported in `mail` and `sendmail` transports, not in SMTP.
      *
      * @var bool
-     *
-     * @deprecated 6.0.0 PHPMailer isn't a mailing list manager!
      */
     public $SingleTo = false;
 
@@ -747,7 +745,7 @@ class PHPMailer
      *
      * @var string
      */
-    const VERSION = '6.1.7';
+    const VERSION = '6.1.6';
 
     /**
      * Error severity: message only, continue processing.
@@ -1309,7 +1307,7 @@ class PHPMailer
             $patternselect = static::$validator;
         }
         if (is_callable($patternselect)) {
-            return call_user_func($patternselect, $address);
+            return $patternselect($address);
         }
         //Reject line breaks in addresses; it's valid RFC5322, but not RFC5321
         if (strpos($address, "\n") !== false || strpos($address, "\r") !== false) {
@@ -1403,6 +1401,7 @@ class PHPMailer
                 //Ignore IDE complaints about this line - method signature changed in PHP 5.4
                 $errorcode = 0;
                 if (defined('INTL_IDNA_VARIANT_UTS46')) {
+                    // phpcs:ignore PHPCompatibility.ParameterValues.NewIDNVariantDefault.NotSet
                     $punycode = idn_to_ascii($domain, $errorcode, INTL_IDNA_VARIANT_UTS46);
                 } elseif (defined('INTL_IDNA_VARIANT_2003')) {
                     // phpcs:ignore PHPCompatibility.Constants.RemovedConstants.intl_idna_variant_2003Deprecated
@@ -2979,6 +2978,7 @@ class PHPMailer
             if ('' === $name) {
                 $name = $filename;
             }
+
             if (!$this->validateEncoding($encoding)) {
                 throw new Exception($this->lang('encoding') . $encoding);
             }
@@ -3993,8 +3993,7 @@ class PHPMailer
      * @param string        $message  HTML message string
      * @param string        $basedir  Absolute path to a base directory to prepend to relative paths to images
      * @param bool|callable $advanced Whether to use the internal HTML to text converter
-     *                                or your own custom converter
-     * @return string The transformed message body
+     *                                or your own custom converter @return string $message The transformed message Body
      *
      * @throws Exception
      *
@@ -4118,7 +4117,7 @@ class PHPMailer
     public function html2text($html, $advanced = false)
     {
         if (is_callable($advanced)) {
-            return call_user_func($advanced, $html);
+            return $advanced($html);
         }
 
         return html_entity_decode(

@@ -830,16 +830,14 @@ function wp_extract_urls( $content ) {
  * @since 1.5.0
  * @since 5.3.0 The `$content` parameter was made optional, and the `$post` parameter was
  *              updated to accept a post ID or a WP_Post object.
- * @since 5.6.0 The `$content` parameter is no longer optional, but passing `null` to skip it
- *              is still supported.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string|null $content Post content. If `null`, the `post_content` field from `$post` is used.
+ * @param string      $content Post content. If `null`, the `post_content` field from `$post` is used.
  * @param int|WP_Post $post    Post ID or post object.
  * @return null|bool Returns false if post is not found.
  */
-function do_enclose( $content, $post ) {
+function do_enclose( $content = null, $post ) {
 	global $wpdb;
 
 	// @todo Tidy this code and make the debug code optional.
@@ -2933,25 +2931,9 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 				array(
 					'text/plain',
 					'text/csv',
-					'application/csv',
 					'text/richtext',
 					'text/tsv',
 					'text/vtt',
-				),
-				true
-			)
-			) {
-				$type = false;
-				$ext  = false;
-			}
-		} elseif ( 'application/csv' === $real_mime ) {
-			// Special casing for CSV files.
-			if ( ! in_array(
-				$type,
-				array(
-					'text/csv',
-					'text/plain',
-					'application/csv',
 				),
 				true
 			)
@@ -6295,14 +6277,13 @@ function send_frame_options_header() {
  * @since 4.3.0 Added 'webcal' to the protocols array.
  * @since 4.7.0 Added 'urn' to the protocols array.
  * @since 5.3.0 Added 'sms' to the protocols array.
- * @since 5.6.0 Added 'irc6' and 'ircs' to the protocols array.
  *
  * @see wp_kses()
  * @see esc_url()
  *
  * @return string[] Array of allowed protocols. Defaults to an array containing 'http', 'https',
- *                  'ftp', 'ftps', 'mailto', 'news', 'irc', 'irc6', 'ircs', 'gopher', 'nntp', 'feed',
- *                  'telnet', 'mms', 'rtsp', 'sms', 'svn', 'tel', 'fax', 'xmpp', 'webcal', and 'urn'.
+ *                  'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet',
+ *                  'mms', 'rtsp', 'sms', 'svn', 'tel', 'fax', 'xmpp', 'webcal', and 'urn'.
  *                  This covers all common link protocols, except for 'javascript' which should not
  *                  be allowed for untrusted users.
  */
@@ -6310,7 +6291,7 @@ function wp_allowed_protocols() {
 	static $protocols = array();
 
 	if ( empty( $protocols ) ) {
-		$protocols = array( 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'irc6', 'ircs', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'sms', 'svn', 'tel', 'fax', 'xmpp', 'webcal', 'urn' );
+		$protocols = array( 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'sms', 'svn', 'tel', 'fax', 'xmpp', 'webcal', 'urn' );
 	}
 
 	if ( ! did_action( 'wp_loaded' ) ) {
@@ -6840,7 +6821,7 @@ function mysql_to_rfc3339( $date_string ) {
  *
  * @param string $context Optional. Context in which the function is called. Accepts either 'admin',
  *                        'image', or an arbitrary other context. If an arbitrary context is passed,
- *                        the similarly arbitrary {@see '$context_memory_limit'} filter will be
+ *                        the similarly arbitrary {@see '{$context}_memory_limit'} filter will be
  *                        invoked. Default 'admin'.
  * @return bool|int|string The limit that was set or false on failure.
  */
@@ -7089,18 +7070,18 @@ All at ###SITENAME###
 	 * @since 4.9.0
 	 *
 	 * @param array $email_change_email {
-	 *     Used to build wp_mail().
+	 *            Used to build wp_mail().
 	 *
-	 *     @type string $to      The intended recipient.
-	 *     @type string $subject The subject of the email.
-	 *     @type string $message The content of the email.
-	 *         The following strings have a special meaning and will get replaced dynamically:
-	 *         - ###OLD_EMAIL### The old site admin email address.
-	 *         - ###NEW_EMAIL### The new site admin email address.
-	 *         - ###SITENAME###  The name of the site.
-	 *         - ###SITEURL###   The URL to the site.
-	 *     @type string $headers Headers.
-	 * }
+	 *            @type string $to      The intended recipient.
+	 *            @type string $subject The subject of the email.
+	 *            @type string $message The content of the email.
+	 *                The following strings have a special meaning and will get replaced dynamically:
+	 *                - ###OLD_EMAIL### The old site admin email address.
+	 *                - ###NEW_EMAIL### The new site admin email address.
+	 *                - ###SITENAME###  The name of the site.
+	 *                - ###SITEURL###   The URL to the site.
+	 *            @type string $headers Headers.
+	 *        }
 	 * @param string $old_email The old site admin email address.
 	 * @param string $new_email The new site admin email address.
 	 */
@@ -7258,8 +7239,6 @@ function wp_privacy_exports_dir() {
 	 * Filters the directory used to store personal data export files.
 	 *
 	 * @since 4.9.6
-	 * @since 5.5.0 Exports now use relative paths, so changes to the directory
-	 *              via this filter should be reflected on the server.
 	 *
 	 * @param string $exports_dir Exports directory.
 	 */
@@ -7283,8 +7262,6 @@ function wp_privacy_exports_url() {
 	 * Filters the URL of the directory used to store personal data export files.
 	 *
 	 * @since 4.9.6
-	 * @since 5.5.0 Exports now use relative paths, so changes to the directory URL
-	 *              via this filter should be reflected on the server.
 	 *
 	 * @param string $exports_url Exports directory URL.
 	 */

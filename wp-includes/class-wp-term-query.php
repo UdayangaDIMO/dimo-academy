@@ -688,9 +688,9 @@ class WP_Term_Query {
 		$this->terms = null;
 
 		/**
-		 * Filters the terms array before the query takes place.
+		 * Filter the terms array before the query takes place.
 		 *
-		 * Return a non-null value to bypass WordPress' default term queries.
+		 * Return a non-null value to bypass WordPress's default term queries.
 		 *
 		 * @since 5.3.0
 		 *

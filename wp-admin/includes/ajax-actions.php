@@ -2205,7 +2205,7 @@ function wp_ajax_find_posts() {
 		if ( '0000-00-00 00:00:00' === $post->post_date ) {
 			$time = '';
 		} else {
-			/* translators: Date format in table columns, see https://www.php.net/manual/datetime.format.php */
+			/* translators: Date format in table columns, see https://www.php.net/date */
 			$time = mysql2date( __( 'Y/m/d' ), $post->post_date );
 		}
 
@@ -2604,11 +2604,10 @@ function wp_ajax_image_editor() {
 	include_once ABSPATH . 'wp-admin/includes/image-edit.php';
 
 	$msg = false;
-
 	switch ( $_POST['do'] ) {
 		case 'save':
 			$msg = wp_save_image( $attachment_id );
-			if ( ! empty( $msg->error ) ) {
+			if ( $msg->error ) {
 				wp_send_json_error( $msg );
 			}
 
@@ -2626,7 +2625,7 @@ function wp_ajax_image_editor() {
 	wp_image_editor( $attachment_id, $msg );
 	$html = ob_get_clean();
 
-	if ( ! empty( $msg->error ) ) {
+	if ( $msg->error ) {
 		wp_send_json_error(
 			array(
 				'message' => $msg,

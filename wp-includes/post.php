@@ -259,27 +259,27 @@ function create_initial_post_types() {
 		'wp_block',
 		array(
 			'labels'                => array(
-				'name'                     => _x( 'Reusable Blocks', 'post type general name' ),
-				'singular_name'            => _x( 'Reusable Block', 'post type singular name' ),
-				'menu_name'                => _x( 'Reusable Blocks', 'admin menu' ),
-				'name_admin_bar'           => _x( 'Reusable Block', 'add new on admin bar' ),
-				'add_new'                  => _x( 'Add New', 'Reusable Block' ),
-				'add_new_item'             => __( 'Add New Reusable Block' ),
-				'new_item'                 => __( 'New Reusable Block' ),
-				'edit_item'                => __( 'Edit Reusable Block' ),
-				'view_item'                => __( 'View Reusable Block' ),
-				'all_items'                => __( 'All Reusable Blocks' ),
-				'search_items'             => __( 'Search Reusable Blocks' ),
-				'not_found'                => __( 'No reusable blocks found.' ),
-				'not_found_in_trash'       => __( 'No reusable blocks found in Trash.' ),
-				'filter_items_list'        => __( 'Filter reusable blocks list' ),
-				'items_list_navigation'    => __( 'Reusable Blocks list navigation' ),
-				'items_list'               => __( 'Reusable Blocks list' ),
-				'item_published'           => __( 'Reusable Block published.' ),
-				'item_published_privately' => __( 'Reusable Block published privately.' ),
-				'item_reverted_to_draft'   => __( 'Reusable Block reverted to draft.' ),
-				'item_scheduled'           => __( 'Reusable Block scheduled.' ),
-				'item_updated'             => __( 'Reusable Block updated.' ),
+				'name'                     => _x( 'Blocks', 'post type general name' ),
+				'singular_name'            => _x( 'Block', 'post type singular name' ),
+				'menu_name'                => _x( 'Blocks', 'admin menu' ),
+				'name_admin_bar'           => _x( 'Block', 'add new on admin bar' ),
+				'add_new'                  => _x( 'Add New', 'Block' ),
+				'add_new_item'             => __( 'Add New Block' ),
+				'new_item'                 => __( 'New Block' ),
+				'edit_item'                => __( 'Edit Block' ),
+				'view_item'                => __( 'View Block' ),
+				'all_items'                => __( 'All Blocks' ),
+				'search_items'             => __( 'Search Blocks' ),
+				'not_found'                => __( 'No blocks found.' ),
+				'not_found_in_trash'       => __( 'No blocks found in Trash.' ),
+				'filter_items_list'        => __( 'Filter blocks list' ),
+				'items_list_navigation'    => __( 'Blocks list navigation' ),
+				'items_list'               => __( 'Blocks list' ),
+				'item_published'           => __( 'Block published.' ),
+				'item_published_privately' => __( 'Block published privately.' ),
+				'item_reverted_to_draft'   => __( 'Block reverted to draft.' ),
+				'item_scheduled'           => __( 'Block scheduled.' ),
+				'item_updated'             => __( 'Block updated.' ),
 			),
 			'public'                => false,
 			'_builtin'              => true, /* internal use only. don't use this when registering your own post type. */
@@ -796,12 +796,12 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 }
 
 /**
- * Retrieves the IDs of the ancestors of a post.
+ * Retrieve ancestors of a post.
  *
  * @since 2.5.0
  *
  * @param int|WP_Post $post Post ID or post object.
- * @return int[] Array of ancestor IDs or empty array if there are none.
+ * @return int[] Ancestor IDs or empty array if none are found.
  */
 function get_post_ancestors( $post ) {
 	$post = get_post( $post );
@@ -1407,9 +1407,6 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                              to the user will *not* be trashed or deleted. If not set (the default),
  *                                              posts are trashed if post_type_supports('author'). Otherwise posts
  *                                              are not trashed or deleted. Default null.
- *     @type array       $template              Array of blocks to use as the default initial state for an editor
- *                                              session. Each item should be an array containing block name and
- *                                              optional attributes.
  *     @type bool        $_builtin              FOR INTERNAL USE ONLY! True if this post type is a native or
  *                                              "built-in" post_type. Default false.
  *     @type string      $_edit_link            FOR INTERNAL USE ONLY! URL segment to use for edit link of
@@ -4378,33 +4375,6 @@ function wp_publish_post( $post ) {
 		return;
 	}
 
-	// Ensure at least one term is applied for taxonomies with a default term.
-	foreach ( get_object_taxonomies( $post->post_type, 'object' ) as $taxonomy => $tax_object ) {
-		// Skip taxonomy if no default term is set.
-		if (
-			'category' !== $taxonomy &&
-			empty( $tax_object->default_term )
-		) {
-			continue;
-		}
-
-		// Do not modify previously set terms.
-		if ( ! empty( get_the_terms( $post, $taxonomy ) ) ) {
-			continue;
-		}
-
-		if ( 'category' === $taxonomy ) {
-			$default_term_id = (int) get_option( 'default_category', 0 );
-		} else {
-			$default_term_id = (int) get_option( 'default_term_' . $taxonomy, 0 );
-		}
-
-		if ( ! $default_term_id ) {
-			continue;
-		}
-		wp_set_post_terms( $post->ID, array( $default_term_id ), $taxonomy );
-	}
-
 	$wpdb->update( $wpdb->posts, array( 'post_status' => 'publish' ), array( 'ID' => $post->ID ) );
 
 	clean_post_cache( $post->ID );
@@ -5885,8 +5855,6 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
  *
  * @since 4.9.7
  *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
  * @param int    $post_id      Attachment ID.
  * @param array  $meta         The attachment's meta data.
  * @param array  $backup_sizes The meta data for the attachment's backup images.
@@ -7362,7 +7330,7 @@ function wp_add_trashed_suffix_to_post_name_for_post( $post ) {
 }
 
 /**
- * Filters the SQL clauses of an attachment query to include filenames.
+ * Filter the SQL clauses of an attachment query to include filenames.
  *
  * @since 4.7.0
  * @access private

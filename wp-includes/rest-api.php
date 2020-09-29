@@ -94,7 +94,7 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 			_doing_it_wrong(
 				__FUNCTION__,
 				sprintf(
-					/* translators: 1: The REST API route being registered, 2: The argument name, 3: The suggested function name. */
+					/* translators: 1. The REST API route being registered. 2. The argument name. 3. The suggested function name. */
 					__( 'The REST API route definition for %1$s is missing the required %2$s argument. For REST API routes that are intended to be public, use %3$s as the permission callback.' ),
 					'<code>' . $clean_namespace . '/' . trim( $route, '/' ) . '</code>',
 					'<code>permission_callback</code>',
@@ -787,7 +787,7 @@ function _rest_array_intersect_key_recursive( $array1, $array2 ) {
 }
 
 /**
- * Filters the API response to include only a white-listed set of response object fields.
+ * Filter the API response to include only a white-listed set of response object fields.
  *
  * @since 4.8.0
  *
@@ -1462,7 +1462,7 @@ function rest_handle_multi_type_schema( $value, $args, $param = '' ) {
 	if ( $invalid_types ) {
 		_doing_it_wrong(
 			__FUNCTION__,
-			/* translators: 1: Parameter, 2: List of allowed types. */
+			/* translators: 1. Parameter. 2. List of allowed types. */
 			wp_sprintf( __( 'The "type" schema keyword for %1$s can only contain the built-in types: %2$l.' ), $param, $allowed_types ),
 			'5.5.0'
 		);
@@ -1551,8 +1551,6 @@ function rest_stabilize_value( $value ) {
  *              Support the "minLength", "maxLength" and "pattern" keywords for strings.
  *              Support the "minItems", "maxItems" and "uniqueItems" keywords for arrays.
  *              Validate required properties.
- * @since 5.6.0 Support the "minProperties" and "maxProperties" keywords for objects.
- *              Support the "multipleOf" keyword for numbers and integers.
  *
  * @param mixed  $value The value to validate.
  * @param array  $args  Schema array to use for validation.
@@ -1563,7 +1561,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 	$allowed_types = array( 'array', 'object', 'string', 'number', 'integer', 'boolean', 'null' );
 
 	if ( ! isset( $args['type'] ) ) {
-		/* translators: %s: Parameter. */
+		/* translators: 1. Parameter */
 		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The "type" schema keyword for %s is required.' ), $param ), '5.5.0' );
 	}
 
@@ -1581,7 +1579,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 	if ( ! in_array( $args['type'], $allowed_types, true ) ) {
 		_doing_it_wrong(
 			__FUNCTION__,
-			/* translators: 1: Parameter, 2: The list of allowed types. */
+			/* translators: 1. Parameter 2. The list of allowed types. */
 			wp_sprintf( __( 'The "type" schema keyword for %1$s can only be one of the built-in types: %2$l.' ), $param, $allowed_types ),
 			'5.5.0'
 		);
@@ -1615,7 +1613,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		}
 
 		if ( ! empty( $args['uniqueItems'] ) && ! rest_validate_array_contains_unique_items( $value ) ) {
-			/* translators: 1: Parameter. */
+			/* translators: 1: Parameter */
 			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s has duplicate items.' ), $param ) );
 		}
 	}
@@ -1664,16 +1662,6 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 				}
 			}
 		}
-
-		if ( isset( $args['minProperties'] ) && count( $value ) < $args['minProperties'] ) {
-			/* translators: 1: Parameter, 2: Number. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must contain at least %2$s properties.' ), $param, number_format_i18n( $args['minProperties'] ) ) );
-		}
-
-		if ( isset( $args['maxProperties'] ) && count( $value ) > $args['maxProperties'] ) {
-			/* translators: 1: Parameter, 2: Number. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must contain at most %2$s properties.' ), $param, number_format_i18n( $args['maxProperties'] ) ) );
-		}
 	}
 
 	if ( 'null' === $args['type'] ) {
@@ -1692,16 +1680,9 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		}
 	}
 
-	if ( in_array( $args['type'], array( 'integer', 'number' ), true ) ) {
-		if ( ! is_numeric( $value ) ) {
-			/* translators: 1: Parameter, 2: Type name. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, $args['type'] ) );
-		}
-
-		if ( isset( $args['multipleOf'] ) && fmod( $value, $args['multipleOf'] ) !== 0.0 ) {
-			/* translators: 1: Parameter, 2: Multiplier. */
-			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must be a multiple of %2$s.' ), $param, $args['multipleOf'] ) );
-		}
+	if ( in_array( $args['type'], array( 'integer', 'number' ), true ) && ! is_numeric( $value ) ) {
+		/* translators: 1: Parameter, 2: Type name. */
+		return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, $args['type'] ) );
 	}
 
 	if ( 'integer' === $args['type'] && ! rest_is_integer( $value ) ) {
@@ -1784,7 +1765,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 				break;
 			case 'uuid':
 				if ( ! wp_is_uuid( $value ) ) {
-					/* translators: %s: The name of a JSON field expecting a valid UUID. */
+					/* translators: %s is the name of a JSON field expecting a valid uuid. */
 					return new WP_Error( 'rest_invalid_uuid', sprintf( __( '%s is not a valid UUID.' ), $param ) );
 				}
 				break;
@@ -1851,7 +1832,7 @@ function rest_sanitize_value_from_schema( $value, $args, $param = '' ) {
 	$allowed_types = array( 'array', 'object', 'string', 'number', 'integer', 'boolean', 'null' );
 
 	if ( ! isset( $args['type'] ) ) {
-		/* translators: %s: Parameter. */
+		/* translators: 1. Parameter */
 		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The "type" schema keyword for %s is required.' ), $param ), '5.5.0' );
 	}
 
@@ -1868,7 +1849,7 @@ function rest_sanitize_value_from_schema( $value, $args, $param = '' ) {
 	if ( ! in_array( $args['type'], $allowed_types, true ) ) {
 		_doing_it_wrong(
 			__FUNCTION__,
-			/* translators: 1: Parameter, 2: The list of allowed types. */
+			/* translators: 1. Parameter. 2. The list of allowed types. */
 			wp_sprintf( __( 'The "type" schema keyword for %1$s can only be one of the built-in types: %2$l.' ), $param, $allowed_types ),
 			'5.5.0'
 		);
@@ -1884,7 +1865,7 @@ function rest_sanitize_value_from_schema( $value, $args, $param = '' ) {
 		}
 
 		if ( ! empty( $args['uniqueItems'] ) && ! rest_validate_array_contains_unique_items( $value ) ) {
-			/* translators: 1: Parameter. */
+			/* translators: 1: Parameter */
 			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s has duplicate items.' ), $param ) );
 		}
 
@@ -2276,92 +2257,4 @@ function rest_get_queried_resource_route() {
 	 * @param string $link The route with a leading slash, or an empty string.
 	 */
 	return apply_filters( 'rest_queried_resource_route', $route );
-}
-
-/**
- * Retrieves an array of endpoint arguments from the item schema and endpoint method.
- *
- * @since 5.6.0
- *
- * @param array  $schema The full JSON schema for the endpoint.
- * @param string $method Optional. HTTP method of the endpoint. The arguments for `CREATABLE` endpoints are
- *                       checked for required values and may fall-back to a given default, this is not done
- *                       on `EDITABLE` endpoints. Default WP_REST_Server::CREATABLE.
- * @return array The endpoint arguments.
- */
-function rest_get_endpoint_args_for_schema( $schema, $method = WP_REST_Server::CREATABLE ) {
-
-	$schema_properties       = ! empty( $schema['properties'] ) ? $schema['properties'] : array();
-	$endpoint_args           = array();
-	$valid_schema_properties = array(
-		'type',
-		'format',
-		'enum',
-		'items',
-		'properties',
-		'additionalProperties',
-		'minProperties',
-		'maxProperties',
-		'minimum',
-		'maximum',
-		'exclusiveMinimum',
-		'exclusiveMaximum',
-		'multipleOf',
-		'minLength',
-		'maxLength',
-		'pattern',
-		'minItems',
-		'maxItems',
-		'uniqueItems',
-	);
-
-	foreach ( $schema_properties as $field_id => $params ) {
-
-		// Arguments specified as `readonly` are not allowed to be set.
-		if ( ! empty( $params['readonly'] ) ) {
-			continue;
-		}
-
-		$endpoint_args[ $field_id ] = array(
-			'validate_callback' => 'rest_validate_request_arg',
-			'sanitize_callback' => 'rest_sanitize_request_arg',
-		);
-
-		if ( isset( $params['description'] ) ) {
-			$endpoint_args[ $field_id ]['description'] = $params['description'];
-		}
-
-		if ( WP_REST_Server::CREATABLE === $method && isset( $params['default'] ) ) {
-			$endpoint_args[ $field_id ]['default'] = $params['default'];
-		}
-
-		if ( WP_REST_Server::CREATABLE === $method && ! empty( $params['required'] ) ) {
-			$endpoint_args[ $field_id ]['required'] = true;
-		}
-
-		foreach ( $valid_schema_properties as $schema_prop ) {
-			if ( isset( $params[ $schema_prop ] ) ) {
-				$endpoint_args[ $field_id ][ $schema_prop ] = $params[ $schema_prop ];
-			}
-		}
-
-		// Merge in any options provided by the schema property.
-		if ( isset( $params['arg_options'] ) ) {
-
-			// Only use required / default from arg_options on CREATABLE endpoints.
-			if ( WP_REST_Server::CREATABLE !== $method ) {
-				$params['arg_options'] = array_diff_key(
-					$params['arg_options'],
-					array(
-						'required' => '',
-						'default'  => '',
-					)
-				);
-			}
-
-			$endpoint_args[ $field_id ] = array_merge( $endpoint_args[ $field_id ], $params['arg_options'] );
-		}
-	}
-
-	return $endpoint_args;
 }

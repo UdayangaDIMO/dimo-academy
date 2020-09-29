@@ -134,7 +134,7 @@ function wp_check_php_mysql_versions() {
  * The type can be set via the `WP_ENVIRONMENT_TYPE` global system variable,
  * or a constant of the same name.
  *
- * Possible values are 'local', 'development', 'staging', and 'production'.
+ * Possible values include 'local', 'development', 'staging', 'production'.
  * If not set, the type defaults to 'production'.
  *
  * @since 5.5.0
@@ -1446,30 +1446,17 @@ function wp_doing_cron() {
 }
 
 /**
- * Checks whether the given variable is a WordPress Error.
+ * Check whether variable is a WordPress Error.
  *
- * Returns whether `$thing` is an instance of the `WP_Error` class.
+ * Returns true if $thing is an object of the WP_Error class.
  *
  * @since 2.1.0
  *
- * @param mixed $thing The variable to check.
- * @return bool Whether the variable is an instance of WP_Error.
+ * @param mixed $thing Check if unknown variable is a WP_Error object.
+ * @return bool True, if WP_Error. False, if not WP_Error.
  */
 function is_wp_error( $thing ) {
-	$is_wp_error = ( $thing instanceof WP_Error );
-
-	if ( $is_wp_error ) {
-		/**
-		 * Fires when `is_wp_error()` is called and it's an instance of `WP_Error`.
-		 *
-		 * @since 5.6.0
-		 *
-		 * @param WP_Error $thing The error object passed to `is_wp_error()`.
-		 */
-		do_action( 'wp_error_checked', $thing );
-	}
-
-	return $is_wp_error;
+	return ( $thing instanceof WP_Error );
 }
 
 /**

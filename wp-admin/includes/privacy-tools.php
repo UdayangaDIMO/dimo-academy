@@ -767,11 +767,7 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 	if ( 1 === $exporter_index && 1 === $page ) {
 		update_post_meta( $request_id, '_export_data_raw', $export_data );
 	} else {
-		$accumulated_data = get_post_meta( $request_id, '_export_data_raw', true );
-
-		if ( $accumulated_data ) {
-			$export_data = $accumulated_data;
-		}
+		$export_data = get_post_meta( $request_id, '_export_data_raw', true );
 	}
 
 	// Now, merge the data from the exporter response into the data we have accumulated already.

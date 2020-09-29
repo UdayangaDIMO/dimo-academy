@@ -1208,8 +1208,7 @@ function get_search_comments_feed_link( $search_query = '', $feed = '' ) {
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $post_type Post type.
- * @return string|false The post type archive permalink. False if the post type
- *                      does not exist or does not have an archive.
+ * @return string|false The post type archive permalink.
  */
 function get_post_type_archive_link( $post_type ) {
 	global $wp_rewrite;
@@ -1264,11 +1263,10 @@ function get_post_type_archive_link( $post_type ) {
  *
  * @since 3.1.0
  *
- * @param string $post_type Post type.
+ * @param string $post_type Post type
  * @param string $feed      Optional. Feed type. Possible values include 'rss2', 'atom'.
  *                          Default is the value of get_default_feed().
- * @return string|false The post type feed permalink. False if the post type
- *                      does not exist or does not have an archive.
+ * @return string|false The post type feed permalink.
  */
 function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
 	$default_feed = get_default_feed();
@@ -1355,8 +1353,8 @@ function get_preview_post_link( $post = null, $query_args = array(), $preview_li
  *
  * @param int|WP_Post $id      Optional. Post ID or post object. Default is the global `$post`.
  * @param string      $context Optional. How to output the '&' character. Default '&amp;'.
- * @return string|null The edit post link for the given post. Null if the post type does not exist
- *                     or does not allow an editing UI.
+ * @return string|null The edit post link for the given post. null if the post type is invalid or does
+ *                     not allow an editing UI.
  */
 function get_edit_post_link( $id = 0, $context = 'display' ) {
 	$post = get_post( $id );
@@ -1963,7 +1961,6 @@ function adjacent_posts_rel_link( $title = '%title', $in_same_term = false, $exc
  * or theme templates.
  *
  * @since 3.0.0
- * @since 5.6.0 No longer used in core.
  *
  * @see adjacent_posts_rel_link()
  */
@@ -3913,7 +3910,7 @@ function wp_get_shortlink( $id = 0, $context = 'post', $allow_slugs = true ) {
 
 		if ( 'page' === $post->post_type && get_option( 'page_on_front' ) == $post->ID && 'page' === get_option( 'show_on_front' ) ) {
 			$shortlink = home_url( '/' );
-		} elseif ( $post_type && $post_type->public ) {
+		} elseif ( $post_type->public ) {
 			$shortlink = home_url( '?p=' . $post_id );
 		}
 	}

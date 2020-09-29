@@ -896,9 +896,8 @@ function count_users( $strategy = 'time', $site_id = null ) {
 	}
 
 	/**
-	 * Filters the user count before queries are run.
-	 *
-	 * Return a non-null value to cause count_users() to return early.
+	 * Filter the user count before queries are run. Return a non-null value to cause count_users()
+	 * to return early.
 	 *
 	 * @since 5.1.0
 	 *
@@ -1191,7 +1190,6 @@ function wp_dropdown_users( $args = '' ) {
 		if ( $parsed_args['include_selected'] && ( $parsed_args['selected'] > 0 ) ) {
 			$found_selected          = false;
 			$parsed_args['selected'] = (int) $parsed_args['selected'];
-
 			foreach ( (array) $users as $user ) {
 				$user->ID = (int) $user->ID;
 				if ( $user->ID === $parsed_args['selected'] ) {
@@ -1200,10 +1198,7 @@ function wp_dropdown_users( $args = '' ) {
 			}
 
 			if ( ! $found_selected ) {
-				$selected_user = get_userdata( $parsed_args['selected'] );
-				if ( $selected_user ) {
-					$users[] = $selected_user;
-				}
+				$users[] = get_userdata( $parsed_args['selected'] );
 			}
 		}
 
@@ -2053,19 +2048,19 @@ All at ###SITENAME###
 			 * @since 4.3.0
 			 *
 			 * @param array $pass_change_email {
-			 *     Used to build wp_mail().
+			 *            Used to build wp_mail().
 			 *
-			 *     @type string $to      The intended recipients. Add emails in a comma separated string.
-			 *     @type string $subject The subject of the email.
-			 *     @type string $message The content of the email.
-			 *         The following strings have a special meaning and will get replaced dynamically:
-			 *         - ###USERNAME###    The current user's username.
-			 *         - ###ADMIN_EMAIL### The admin email in case this was unexpected.
-			 *         - ###EMAIL###       The user's email address.
-			 *         - ###SITENAME###    The name of the site.
-			 *         - ###SITEURL###     The URL to the site.
-			 *     @type string $headers Headers. Add headers in a newline (\r\n) separated string.
-			 * }
+			 *            @type string $to      The intended recipients. Add emails in a comma separated string.
+			 *            @type string $subject The subject of the email.
+			 *            @type string $message The content of the email.
+			 *                The following strings have a special meaning and will get replaced dynamically:
+			 *                - ###USERNAME###    The current user's username.
+			 *                - ###ADMIN_EMAIL### The admin email in case this was unexpected.
+			 *                - ###EMAIL###       The user's email address.
+			 *                - ###SITENAME###    The name of the site.
+			 *                - ###SITEURL###     The URL to the site.
+			 *            @type string $headers Headers. Add headers in a newline (\r\n) separated string.
+			 *        }
 			 * @param array $user     The original user array.
 			 * @param array $userdata The updated user array.
 			 */
@@ -2111,20 +2106,20 @@ All at ###SITENAME###
 			 * @since 4.3.0
 			 *
 			 * @param array $email_change_email {
-			 *     Used to build wp_mail().
+			 *            Used to build wp_mail().
 			 *
-			 *     @type string $to      The intended recipients.
-			 *     @type string $subject The subject of the email.
-			 *     @type string $message The content of the email.
-			 *         The following strings have a special meaning and will get replaced dynamically:
-			 *         - ###USERNAME###    The current user's username.
-			 *         - ###ADMIN_EMAIL### The admin email in case this was unexpected.
-			 *         - ###NEW_EMAIL###   The new email address.
-			 *         - ###EMAIL###       The old email address.
-			 *         - ###SITENAME###    The name of the site.
-			 *         - ###SITEURL###     The URL to the site.
-			 *     @type string $headers Headers.
-			 * }
+			 *            @type string $to      The intended recipients.
+			 *            @type string $subject The subject of the email.
+			 *            @type string $message The content of the email.
+			 *                The following strings have a special meaning and will get replaced dynamically:
+			 *                - ###USERNAME###    The current user's username.
+			 *                - ###ADMIN_EMAIL### The admin email in case this was unexpected.
+			 *                - ###NEW_EMAIL###   The new email address.
+			 *                - ###EMAIL###       The old email address.
+			 *                - ###SITENAME###    The name of the site.
+			 *                - ###SITEURL###     The URL to the site.
+			 *            @type string $headers Headers.
+			 *        }
 			 * @param array $user     The original user array.
 			 * @param array $userdata The updated user array.
 			 */
