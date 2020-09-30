@@ -1,0 +1,19 @@
+// modal trigger
+.ct-config-btn {
+	margin-right: auto;
+	margin-left: 10px;
+
+	&:before {
+		font-family: dashicons;
+		content: "\f111";
+		font-size: 14px;
+		margin-right: 5px;
+		opacity: 0.9;
+	}
+}
+
+
+// inside modal
+.ct-extension-config {
+	padding: 20px;
+}

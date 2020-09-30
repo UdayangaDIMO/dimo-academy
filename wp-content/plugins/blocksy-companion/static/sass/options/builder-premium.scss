@@ -1,0 +1,59 @@
+.ct-conditions-modal {
+	--ct-modal-width: 600px;
+	--ct-modal-padding: 60px 70px;
+}
+
+.ct-header-conditions {
+
+	h1 {
+		margin-bottom: 10px !important;
+	}
+
+	.ct-display-conditions {
+
+		.ct-condition-group {
+			padding-right: 0;
+
+			button {
+				right: -30px;
+			}
+		}
+
+		.add-condition {
+			width: 100%;
+			// min-height: 42px;
+		}
+	}
+
+	.ct-conditions-actions {
+		margin-top: 20px;
+
+		.button-primary {
+			width: 100%;
+			min-height: 42px;
+			font-size: 14px;
+			font-weight: 500;
+		}
+	}
+}
+
+
+// copy instance
+.ct-control-copy-instance {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-column-gap: 10px;
+	min-height: 30px;
+	margin: 20px 0;
+	padding-top: 20px;
+	border-top: 1px dashed #eee;
+
+	label {
+		display: flex;
+		align-items: center;
+	}
+
+	.ct-option-switch {
+		margin-right: 10px;
+	}
+}

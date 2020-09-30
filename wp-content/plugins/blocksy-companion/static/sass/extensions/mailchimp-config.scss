@@ -1,0 +1,27 @@
+.mailchimp-credentials {
+	display: grid;
+	grid-template-columns: 1.5fr 1fr 1fr;
+	grid-column-gap: 7px;
+	margin: 0;
+	padding-top: 20px;
+	border-top: 1px dashed #eee;
+
+	li {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		margin-bottom: 0;
+		min-width: 0;
+	}
+
+	label {
+		display: block;
+		font-size: 12px;
+		margin-bottom: 3px;
+		opacity: 0.7;
+	}
+
+	input {
+		--height: 35px;
+	}
+}

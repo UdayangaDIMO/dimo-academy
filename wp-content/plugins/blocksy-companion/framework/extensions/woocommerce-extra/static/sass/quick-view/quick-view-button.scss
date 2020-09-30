@@ -1,0 +1,44 @@
+.ct-open-quick-view {
+	--trigger-size: 36px;
+	--linkInitialColor: var(--color);
+	--linkHoverColor: #fff;
+
+	position: absolute;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--trigger-size);
+	height: var(--trigger-size);
+	opacity: 0;
+	transition: color 0.12s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+		opacity 0.12s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
+	&:focus {
+		opacity: 1;
+	}
+
+	&:after {
+		position: absolute;
+		content: '';
+		width: 100%;
+		height: 100%;
+		border-radius: 100%;
+		background: #fff;
+		transition: transform 0.12s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+			background 0.12s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+	}
+
+	&:hover {
+		&:after {
+			background: var(--paletteColor1);
+			transform: scale3d(1.1, 1.1, 1);
+		}
+	}
+
+	svg {
+		position: relative;
+		z-index: 1;
+		fill: currentColor;
+	}
+}

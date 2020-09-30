@@ -1,0 +1,39 @@
+.ct-quick-view-card {
+
+	> section {
+		position: relative;
+		border-radius: 7px;
+		background: #fff;
+		-webkit-mask-image: -webkit-radial-gradient(white, black);
+
+		@include media-breakpoint-down (sm) {
+			overflow-y: auto;
+			max-height: inherit;
+		}
+	}
+
+
+	// onsale badge
+	.onsale {
+		--badgeTop: 25px;
+		--badgeLeft: 25px;
+	}
+
+
+	// close button
+	.close-button {
+		--top: 25px;
+		--right: 25px;
+		--triggerWidth: 14px;
+		--closeButtonSize: 34px;
+		--closeButtonRadius: 100%;
+		--closeButtonColor: var(--color);
+		--closeButtonBackground: #F2F2F2;
+
+		&:hover {
+			&:before {
+				transform: scale(1.15);
+			}
+		}
+	}
+}
